@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const { Pool } = require('pg');
@@ -47,15 +48,18 @@ app.use('/api/transactions', transactionsRoutes(pool));
 app.use('/api/depreciation', depreciationRoutes(pool));
 app.use('/api/dashboard', dashboardRoutes(pool));
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// Catch all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // Initialize database tables
