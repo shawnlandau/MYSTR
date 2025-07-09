@@ -170,9 +170,15 @@ const Properties = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Nightly Rate:</span>
+                <span className="text-sm text-gray-600">Monthly Taxes:</span>
                 <span className="text-sm font-medium">
-                  {formatCurrency(property.nightly_rate)}
+                  {formatCurrency(property.monthly_taxes)}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-600">Monthly Insurance:</span>
+                <span className="text-sm font-medium">
+                  {formatCurrency(property.monthly_insurance)}
                 </span>
               </div>
             </div>

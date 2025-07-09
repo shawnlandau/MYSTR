@@ -7,7 +7,7 @@ const BookingModal = ({ booking, properties, onSave, onClose }) => {
     guest_name: '',
     check_in_date: '',
     check_out_date: '',
-    nightly_rate: '',
+    total_amount: '',
     notes: ''
   })
 
@@ -18,7 +18,7 @@ const BookingModal = ({ booking, properties, onSave, onClose }) => {
         guest_name: booking.guest_name || '',
         check_in_date: booking.check_in_date || '',
         check_out_date: booking.check_out_date || '',
-        nightly_rate: booking.nightly_rate || '',
+        total_amount: booking.total_amount || '',
         notes: booking.notes || ''
       })
     }
@@ -29,7 +29,7 @@ const BookingModal = ({ booking, properties, onSave, onClose }) => {
     const data = {
       ...formData,
       property_id: parseInt(formData.property_id) || 0,
-      nightly_rate: parseFloat(formData.nightly_rate) || 0
+      total_amount: parseFloat(formData.total_amount) || 0
     }
     
     if (booking) {
@@ -119,11 +119,11 @@ const BookingModal = ({ booking, properties, onSave, onClose }) => {
           </div>
 
           <div>
-            <label className="label">Nightly Rate</label>
+            <label className="label">Total Amount</label>
             <input
               type="number"
-              name="nightly_rate"
-              value={formData.nightly_rate}
+              name="total_amount"
+              value={formData.total_amount}
               onChange={handleChange}
               className="input"
               step="0.01"

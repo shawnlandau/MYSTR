@@ -44,30 +44,30 @@ const PropertyDetails = ({ property, onClose }) => {
               <p className="text-sm text-gray-900">{formatCurrency(property.purchase_price)}</p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Current Value</label>
-              <p className="text-sm text-gray-900">{formatCurrency(property.current_value)}</p>
+              <label className="text-sm font-medium text-gray-600">Down Payment</label>
+              <p className="text-sm text-gray-900">{formatCurrency(property.down_payment)}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">Monthly Rent</label>
-              <p className="text-sm text-gray-900">{formatCurrency(property.monthly_rent)}</p>
+              <label className="text-sm font-medium text-gray-600">Monthly Mortgage</label>
+              <p className="text-sm text-gray-900">{formatCurrency(property.monthly_mortgage)}</p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Annual Taxes</label>
-              <p className="text-sm text-gray-900">{formatCurrency(property.annual_taxes)}</p>
+              <label className="text-sm font-medium text-gray-600">Monthly Taxes</label>
+              <p className="text-sm text-gray-900">{formatCurrency(property.monthly_taxes)}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">Annual Insurance</label>
-              <p className="text-sm text-gray-900">{formatCurrency(property.annual_insurance)}</p>
+              <label className="text-sm font-medium text-gray-600">Monthly Insurance</label>
+              <p className="text-sm text-gray-900">{formatCurrency(property.monthly_insurance)}</p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">HOA Fees</label>
-              <p className="text-sm text-gray-900">{formatCurrency(property.hoa_fees)}</p>
+              <label className="text-sm font-medium text-gray-600">Monthly HOA Fees</label>
+              <p className="text-sm text-gray-900">{formatCurrency(property.monthly_hoa_fees)}</p>
             </div>
           </div>
 

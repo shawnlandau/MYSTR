@@ -62,22 +62,16 @@ function bookingsRoutes(pool) {
         guest_name,
         check_in_date,
         check_out_date,
-        nightly_rate,
+        total_amount,
         notes
       } = req.body;
 
-      // Calculate total amount
-      const checkIn = new Date(check_in_date);
-      const checkOut = new Date(check_out_date);
-      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-      const total_amount = nights * nightly_rate;
-
       const result = await pool.query(
         `INSERT INTO bookings 
-         (property_id, guest_name, check_in_date, check_out_date, nightly_rate, total_amount, notes)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         (property_id, guest_name, check_in_date, check_out_date, total_amount, notes)
+         VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-        [property_id, guest_name, check_in_date, check_out_date, nightly_rate, total_amount, notes]
+        [property_id, guest_name, check_in_date, check_out_date, total_amount, notes]
       );
 
       // Create income transaction for the booking
@@ -89,7 +83,7 @@ function bookingsRoutes(pool) {
           property_id,
           result.rows[0].id,
           total_amount,
-          `Rental income for ${guest_name} (${nights} nights)`,
+          `Rental income for ${guest_name}`,
           check_in_date
         ]
       );
@@ -109,24 +103,18 @@ function bookingsRoutes(pool) {
         guest_name,
         check_in_date,
         check_out_date,
-        nightly_rate,
+        total_amount,
         status,
         notes
       } = req.body;
 
-      // Calculate new total amount
-      const checkIn = new Date(check_in_date);
-      const checkOut = new Date(check_out_date);
-      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-      const total_amount = nights * nightly_rate;
-
       const result = await pool.query(
         `UPDATE bookings 
          SET guest_name = $1, check_in_date = $2, check_out_date = $3, 
-             nightly_rate = $4, total_amount = $5, status = $6, notes = $7, updated_at = CURRENT_TIMESTAMP
-         WHERE id = $8
+             total_amount = $4, status = $5, notes = $6, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $7
          RETURNING *`,
-        [guest_name, check_in_date, check_out_date, nightly_rate, total_amount, status, notes, id]
+        [guest_name, check_in_date, check_out_date, total_amount, status, notes, id]
       );
 
       if (result.rows.length === 0) {
@@ -164,7 +152,7 @@ function bookingsRoutes(pool) {
         SELECT 
           COUNT(*) as total_bookings,
           SUM(total_amount) as total_revenue,
-          AVG(nightly_rate) as avg_nightly_rate,
+          AVG(total_amount) as avg_booking_amount,
           COUNT(CASE WHEN status = 'confirmed' THEN 1 END) as confirmed_bookings,
           COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_bookings
         FROM bookings

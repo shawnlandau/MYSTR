@@ -19,7 +19,7 @@ const PortfolioOverview = ({ data }) => {
                 Property
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Current Value
+                Purchase Price
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Total Income
@@ -39,7 +39,7 @@ const PortfolioOverview = ({ data }) => {
                   {property.address}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatCurrency(property.current_value)}
+                  {formatCurrency(property.purchase_price)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-success-600">
                   {formatCurrency(property.total_income)}

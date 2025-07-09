@@ -129,9 +129,9 @@ const Bookings = () => {
           <div className="flex items-center">
             <DollarSign className="h-8 w-8 text-purple-500" />
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Avg Nightly Rate</p>
+              <p className="text-sm font-medium text-gray-600">Avg Booking Amount</p>
               <p className="text-2xl font-bold text-gray-900">
-                ${(stats.avg_nightly_rate || 0).toFixed(2)}
+                ${(stats.avg_booking_amount || 0).toFixed(2)}
               </p>
             </div>
           </div>
@@ -170,10 +170,7 @@ const Bookings = () => {
                   Nights
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rate
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total
+                  Total Amount
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -202,9 +199,6 @@ const Bookings = () => {
                     {calculateNights(booking.check_in_date, booking.check_out_date)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${booking.nightly_rate}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
                     ${booking.total_amount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

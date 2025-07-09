@@ -83,8 +83,6 @@ async function initializeDatabase() {
         monthly_taxes DECIMAL(10,2) DEFAULT 0,
         monthly_insurance DECIMAL(10,2) DEFAULT 0,
         monthly_hoa_fees DECIMAL(10,2) DEFAULT 0,
-        current_value DECIMAL(12,2) NOT NULL,
-        nightly_rate DECIMAL(10,2) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
@@ -98,7 +96,6 @@ async function initializeDatabase() {
         guest_name VARCHAR(255) NOT NULL,
         check_in_date DATE NOT NULL,
         check_out_date DATE NOT NULL,
-        nightly_rate DECIMAL(10,2) NOT NULL,
         total_amount DECIMAL(10,2) NOT NULL,
         status VARCHAR(50) DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'cancelled', 'completed')),
         notes TEXT,

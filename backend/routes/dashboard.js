@@ -10,9 +10,8 @@ module.exports = (pool) => {
       const portfolioValue = await pool.query(`
         SELECT 
           COUNT(*) as total_properties,
-          SUM(current_value) as total_portfolio_value,
           SUM(purchase_price) as total_purchase_value,
-          SUM(current_value - purchase_price) as total_appreciation
+          SUM(purchase_price) as total_portfolio_value
         FROM properties
       `);
 
@@ -34,13 +33,12 @@ module.exports = (pool) => {
         SELECT 
           p.id,
           p.address,
-          p.current_value,
           COALESCE(SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE 0 END), 0) as total_income,
           COALESCE(SUM(CASE WHEN t.type = 'expense' THEN t.amount ELSE 0 END), 0) as total_expenses,
           COALESCE(SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE -t.amount END), 0) as net_cash_flow
         FROM properties p
         LEFT JOIN transactions t ON p.id = t.property_id
-        GROUP BY p.id, p.address, p.current_value
+        GROUP BY p.id, p.address
         ORDER BY net_cash_flow DESC
       `);
 
@@ -76,15 +74,12 @@ module.exports = (pool) => {
           p.address,
           p.property_type,
           p.purchase_price,
-          p.current_value,
-          p.monthly_rent,
           COALESCE(SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE 0 END), 0) as total_income,
           COALESCE(SUM(CASE WHEN t.type = 'expense' THEN t.amount ELSE 0 END), 0) as total_expenses,
-          COALESCE(SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE -t.amount END), 0) as net_cash_flow,
-          ((p.current_value - p.purchase_price) / p.purchase_price * 100) as appreciation_percentage
+          COALESCE(SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE -t.amount END), 0) as net_cash_flow
         FROM properties p
         LEFT JOIN transactions t ON p.id = t.property_id
-        GROUP BY p.id, p.address, p.property_type, p.purchase_price, p.current_value, p.monthly_rent
+        GROUP BY p.id, p.address, p.property_type, p.purchase_price
         ORDER BY net_cash_flow DESC
       `);
       
@@ -174,8 +169,8 @@ module.exports = (pool) => {
         SELECT 
           property_type,
           COUNT(*) as property_count,
-          SUM(current_value) as total_value,
-          AVG(current_value) as avg_value
+          SUM(purchase_price) as total_value,
+          AVG(purchase_price) as avg_value
         FROM properties
         GROUP BY property_type
         ORDER BY total_value DESC
