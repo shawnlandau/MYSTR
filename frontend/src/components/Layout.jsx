@@ -6,6 +6,7 @@ import {
   Receipt, 
   Calculator,
   Calendar,
+  FileText,
   Menu,
   X
 } from 'lucide-react'
@@ -20,6 +21,7 @@ const Layout = ({ children }) => {
     { name: 'Bookings', href: '/bookings', icon: Calendar },
     { name: 'Transactions', href: '/transactions', icon: Receipt },
     { name: 'Depreciation', href: '/depreciation', icon: Calculator },
+    { name: 'Tax Forms', href: '/tax-forms', icon: FileText },
   ]
 
   return (

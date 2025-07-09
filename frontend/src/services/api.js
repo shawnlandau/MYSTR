@@ -193,6 +193,31 @@ class ApiService {
   async getBookingStats() {
     return this.request('/bookings/stats/summary')
   }
+
+  // Tax Forms API
+  async getTaxSummary(year) {
+    return this.request(`/tax-forms/summary/${year}`)
+  }
+
+  async getSection179Summary(year) {
+    return this.request(`/tax-forms/section179/${year}`)
+  }
+
+  async getBonusDepreciationSummary(year) {
+    return this.request(`/tax-forms/bonus-depreciation/${year}`)
+  }
+
+  async getRentalIncomeSummary(year) {
+    return this.request(`/tax-forms/rental-income/${year}`)
+  }
+
+  async getExpensesBreakdown(year) {
+    return this.request(`/tax-forms/expenses/${year}`)
+  }
+
+  async getTaxFormsData(year) {
+    return this.request(`/tax-forms/forms/${year}`)
+  }
 }
 
 export default new ApiService() 

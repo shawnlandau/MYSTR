@@ -66,7 +66,10 @@ module.exports = (pool) => {
         property_id,
         year,
         straight_line = 0,
-        bonus_depreciation = 0
+        bonus_depreciation = 0,
+        section_179_deduction = 0,
+        placed_in_service_date,
+        business_use_percentage = 100
       } = req.body;
 
       if (!property_id || !year) {
@@ -89,13 +92,15 @@ module.exports = (pool) => {
         return res.status(400).json({ error: 'Depreciation record already exists for this property and year' });
       }
 
-      const total_depreciation = parseFloat(straight_line) + parseFloat(bonus_depreciation);
+      const total_depreciation = parseFloat(straight_line) + parseFloat(bonus_depreciation) + parseFloat(section_179_deduction);
 
       const result = await pool.query(`
-        INSERT INTO depreciation (property_id, year, straight_line, bonus_depreciation, total_depreciation)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO depreciation (property_id, year, straight_line, bonus_depreciation, section_179_deduction, 
+                                total_depreciation, placed_in_service_date, business_use_percentage)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *
-      `, [property_id, year, straight_line, bonus_depreciation, total_depreciation]);
+      `, [property_id, year, straight_line, bonus_depreciation, section_179_deduction, 
+           total_depreciation, placed_in_service_date, business_use_percentage]);
 
       res.status(201).json(result.rows[0]);
     } catch (error) {
@@ -112,18 +117,23 @@ module.exports = (pool) => {
         property_id,
         year,
         straight_line,
-        bonus_depreciation
+        bonus_depreciation,
+        section_179_deduction,
+        placed_in_service_date,
+        business_use_percentage
       } = req.body;
 
-      const total_depreciation = parseFloat(straight_line) + parseFloat(bonus_depreciation);
+      const total_depreciation = parseFloat(straight_line) + parseFloat(bonus_depreciation) + parseFloat(section_179_deduction);
 
       const result = await pool.query(`
         UPDATE depreciation 
         SET property_id = $1, year = $2, straight_line = $3, bonus_depreciation = $4, 
-            total_depreciation = $5, updated_at = CURRENT_TIMESTAMP
-        WHERE id = $6
+            section_179_deduction = $5, total_depreciation = $6, placed_in_service_date = $7,
+            business_use_percentage = $8, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $9
         RETURNING *
-      `, [property_id, year, straight_line, bonus_depreciation, total_depreciation, id]);
+      `, [property_id, year, straight_line, bonus_depreciation, section_179_deduction, 
+           total_depreciation, placed_in_service_date, business_use_percentage, id]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Depreciation record not found' });

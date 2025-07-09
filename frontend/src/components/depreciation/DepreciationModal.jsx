@@ -6,7 +6,10 @@ const DepreciationModal = ({ depreciation, properties, onSave, onClose }) => {
     property_id: '',
     year: new Date().getFullYear(),
     straight_line: '',
-    bonus_depreciation: ''
+    bonus_depreciation: '',
+    section_179_deduction: '',
+    placed_in_service_date: '',
+    business_use_percentage: '100'
   })
 
   useEffect(() => {
@@ -15,7 +18,10 @@ const DepreciationModal = ({ depreciation, properties, onSave, onClose }) => {
         property_id: depreciation.property_id || '',
         year: depreciation.year || new Date().getFullYear(),
         straight_line: depreciation.straight_line || '',
-        bonus_depreciation: depreciation.bonus_depreciation || ''
+        bonus_depreciation: depreciation.bonus_depreciation || '',
+        section_179_deduction: depreciation.section_179_deduction || '',
+        placed_in_service_date: depreciation.placed_in_service_date || '',
+        business_use_percentage: depreciation.business_use_percentage || '100'
       })
     }
   }, [depreciation])
@@ -25,7 +31,9 @@ const DepreciationModal = ({ depreciation, properties, onSave, onClose }) => {
     const data = {
       ...formData,
       straight_line: parseFloat(formData.straight_line) || 0,
-      bonus_depreciation: parseFloat(formData.bonus_depreciation) || 0
+      bonus_depreciation: parseFloat(formData.bonus_depreciation) || 0,
+      section_179_deduction: parseFloat(formData.section_179_deduction) || 0,
+      business_use_percentage: parseFloat(formData.business_use_percentage) || 100
     }
     
     if (depreciation) {
@@ -117,10 +125,49 @@ const DepreciationModal = ({ depreciation, properties, onSave, onClose }) => {
             />
           </div>
 
+          <div>
+            <label className="label">Section 179 Deduction</label>
+            <input
+              type="number"
+              name="section_179_deduction"
+              value={formData.section_179_deduction}
+              onChange={handleChange}
+              className="input"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
+
+          <div>
+            <label className="label">Placed in Service Date</label>
+            <input
+              type="date"
+              name="placed_in_service_date"
+              value={formData.placed_in_service_date}
+              onChange={handleChange}
+              className="input"
+            />
+          </div>
+
+          <div>
+            <label className="label">Business Use Percentage</label>
+            <input
+              type="number"
+              name="business_use_percentage"
+              value={formData.business_use_percentage}
+              onChange={handleChange}
+              className="input"
+              min="0"
+              max="100"
+              step="0.01"
+              placeholder="100"
+            />
+          </div>
+
           <div className="bg-gray-50 p-3 rounded">
             <label className="text-sm font-medium text-gray-600">Total Depreciation</label>
             <p className="text-lg font-semibold text-primary-600">
-              ${((parseFloat(formData.straight_line) || 0) + (parseFloat(formData.bonus_depreciation) || 0)).toFixed(2)}
+              ${((parseFloat(formData.straight_line) || 0) + (parseFloat(formData.bonus_depreciation) || 0) + (parseFloat(formData.section_179_deduction) || 0)).toFixed(2)}
             </p>
           </div>
 

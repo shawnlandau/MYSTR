@@ -11,6 +11,7 @@ const transactionsRoutes = require('./routes/transactions');
 const depreciationRoutes = require('./routes/depreciation');
 const dashboardRoutes = require('./routes/dashboard');
 const bookingsRoutes = require('./routes/bookings');
+const taxFormsRoutes = require('./routes/taxForms');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -49,6 +50,7 @@ app.use('/api/transactions', transactionsRoutes(pool));
 app.use('/api/depreciation', depreciationRoutes(pool));
 app.use('/api/dashboard', dashboardRoutes(pool));
 app.use('/api/bookings', bookingsRoutes(pool));
+app.use('/api/tax-forms', taxFormsRoutes(pool));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -128,7 +130,10 @@ async function initializeDatabase() {
         year INTEGER NOT NULL,
         straight_line DECIMAL(10,2) DEFAULT 0,
         bonus_depreciation DECIMAL(10,2) DEFAULT 0,
+        section_179_deduction DECIMAL(10,2) DEFAULT 0,
         total_depreciation DECIMAL(10,2) DEFAULT 0,
+        placed_in_service_date DATE,
+        business_use_percentage DECIMAL(5,2) DEFAULT 100.00,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )

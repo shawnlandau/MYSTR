@@ -5,6 +5,7 @@ import Properties from './pages/Properties'
 import Bookings from './pages/Bookings'
 import Transactions from './pages/Transactions'
 import Depreciation from './pages/Depreciation'
+import TaxForms from './pages/TaxForms'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/depreciation" element={<Depreciation />} />
+        <Route path="/tax-forms" element={<TaxForms />} />
       </Routes>
     </Layout>
   )
