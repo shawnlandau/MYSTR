@@ -1,22 +1,32 @@
 {
   "name": "real-estate-portfolio-tracker",
   "version": "1.0.0",
-  "description": "Full-stack real estate portfolio tracker for personal use",
-  "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  "description": "Real Estate Portfolio Tracker - Full Stack Application",
+  "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
-    "build": "npm run build:backend && npm run build:frontend",
-    "build:backend": "cd backend && npm run build",
-    "build:frontend": "cd frontend && npm run build",
-    "start": "cd backend && npm start"
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
+  "keywords": [
+    "real-estate",
+    "portfolio",
+    "tracker",
+    "react",
+    "nodejs",
+    "express",
+    "postgresql"
+  ],
+  "author": "Shawn Landau",
+  "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
-  }
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 } 
