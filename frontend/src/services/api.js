@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.PROD ? '' : '/api'
+const API_BASE_URL = '/api'
 
 class ApiService {
   async request(endpoint, options = {}) {
