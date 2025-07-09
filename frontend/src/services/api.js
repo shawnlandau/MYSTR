@@ -156,6 +156,43 @@ class ApiService {
   async getPropertyDistribution() {
     return this.request('/dashboard/property-distribution')
   }
+
+  // Bookings API
+  async getBookings() {
+    return this.request('/bookings')
+  }
+
+  async getPropertyBookings(propertyId) {
+    return this.request(`/bookings/property/${propertyId}`)
+  }
+
+  async getBooking(id) {
+    return this.request(`/bookings/${id}`)
+  }
+
+  async createBooking(data) {
+    return this.request('/bookings', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateBooking(id, data) {
+    return this.request(`/bookings/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async deleteBooking(id) {
+    return this.request(`/bookings/${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  async getBookingStats() {
+    return this.request('/bookings/stats/summary')
+  }
 }
 
 export default new ApiService() 

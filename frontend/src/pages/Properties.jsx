@@ -158,21 +158,21 @@ const Properties = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Current Value:</span>
+                <span className="text-sm text-gray-600">Down Payment:</span>
                 <span className="text-sm font-medium">
-                  {formatCurrency(property.current_value)}
+                  {formatCurrency(property.down_payment)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Monthly Rent:</span>
+                <span className="text-sm text-gray-600">Monthly Mortgage:</span>
                 <span className="text-sm font-medium">
-                  {formatCurrency(property.monthly_rent)}
+                  {formatCurrency(property.monthly_mortgage)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Annual Taxes:</span>
+                <span className="text-sm text-gray-600">Nightly Rate:</span>
                 <span className="text-sm font-medium">
-                  {formatCurrency(property.annual_taxes)}
+                  {formatCurrency(property.nightly_rate)}
                 </span>
               </div>
             </div>

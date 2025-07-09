@@ -56,22 +56,26 @@ module.exports = (pool) => {
         address,
         property_type,
         purchase_price,
+        down_payment,
+        monthly_mortgage,
+        monthly_taxes = 0,
+        monthly_insurance = 0,
+        monthly_hoa_fees = 0,
         current_value,
-        monthly_rent = 0,
-        annual_taxes = 0,
-        annual_insurance = 0,
-        hoa_fees = 0
+        nightly_rate = 0
       } = req.body;
 
-      if (!address || !property_type || !purchase_price || !current_value) {
+      if (!address || !property_type || !purchase_price || !down_payment || !monthly_mortgage || !current_value) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
       const result = await pool.query(`
-        INSERT INTO properties (address, property_type, purchase_price, current_value, monthly_rent, annual_taxes, annual_insurance, hoa_fees)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        INSERT INTO properties (address, property_type, purchase_price, down_payment, monthly_mortgage, 
+                              monthly_taxes, monthly_insurance, monthly_hoa_fees, current_value, nightly_rate)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         RETURNING *
-      `, [address, property_type, purchase_price, current_value, monthly_rent, annual_taxes, annual_insurance, hoa_fees]);
+      `, [address, property_type, purchase_price, down_payment, monthly_mortgage, 
+           monthly_taxes, monthly_insurance, monthly_hoa_fees, current_value, nightly_rate]);
 
       res.status(201).json(result.rows[0]);
     } catch (error) {
@@ -88,21 +92,25 @@ module.exports = (pool) => {
         address,
         property_type,
         purchase_price,
+        down_payment,
+        monthly_mortgage,
+        monthly_taxes,
+        monthly_insurance,
+        monthly_hoa_fees,
         current_value,
-        monthly_rent,
-        annual_taxes,
-        annual_insurance,
-        hoa_fees
+        nightly_rate
       } = req.body;
 
       const result = await pool.query(`
         UPDATE properties 
-        SET address = $1, property_type = $2, purchase_price = $3, current_value = $4, 
-            monthly_rent = $5, annual_taxes = $6, annual_insurance = $7, hoa_fees = $8,
+        SET address = $1, property_type = $2, purchase_price = $3, down_payment = $4, 
+            monthly_mortgage = $5, monthly_taxes = $6, monthly_insurance = $7, 
+            monthly_hoa_fees = $8, current_value = $9, nightly_rate = $10,
             updated_at = CURRENT_TIMESTAMP
-        WHERE id = $9
+        WHERE id = $11
         RETURNING *
-      `, [address, property_type, purchase_price, current_value, monthly_rent, annual_taxes, annual_insurance, hoa_fees, id]);
+      `, [address, property_type, purchase_price, down_payment, monthly_mortgage, 
+           monthly_taxes, monthly_insurance, monthly_hoa_fees, current_value, nightly_rate, id]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Property not found' });

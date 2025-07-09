@@ -10,6 +10,7 @@ const propertiesRoutes = require('./routes/properties');
 const transactionsRoutes = require('./routes/transactions');
 const depreciationRoutes = require('./routes/depreciation');
 const dashboardRoutes = require('./routes/dashboard');
+const bookingsRoutes = require('./routes/bookings');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,6 +48,7 @@ app.use('/api/properties', propertiesRoutes(pool));
 app.use('/api/transactions', transactionsRoutes(pool));
 app.use('/api/depreciation', depreciationRoutes(pool));
 app.use('/api/dashboard', dashboardRoutes(pool));
+app.use('/api/bookings', bookingsRoutes(pool));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -74,11 +76,30 @@ async function initializeDatabase() {
         address VARCHAR(255) NOT NULL,
         property_type VARCHAR(100) NOT NULL,
         purchase_price DECIMAL(12,2) NOT NULL,
+        down_payment DECIMAL(12,2) NOT NULL,
+        monthly_mortgage DECIMAL(10,2) NOT NULL,
+        monthly_taxes DECIMAL(10,2) DEFAULT 0,
+        monthly_insurance DECIMAL(10,2) DEFAULT 0,
+        monthly_hoa_fees DECIMAL(10,2) DEFAULT 0,
         current_value DECIMAL(12,2) NOT NULL,
-        monthly_rent DECIMAL(10,2) DEFAULT 0,
-        annual_taxes DECIMAL(10,2) DEFAULT 0,
-        annual_insurance DECIMAL(10,2) DEFAULT 0,
-        hoa_fees DECIMAL(10,2) DEFAULT 0,
+        nightly_rate DECIMAL(10,2) DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Create bookings table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
+        guest_name VARCHAR(255) NOT NULL,
+        check_in_date DATE NOT NULL,
+        check_out_date DATE NOT NULL,
+        nightly_rate DECIMAL(10,2) NOT NULL,
+        total_amount DECIMAL(10,2) NOT NULL,
+        status VARCHAR(50) DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'cancelled', 'completed')),
+        notes TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
@@ -89,6 +110,7 @@ async function initializeDatabase() {
       CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
         property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
+        booking_id INTEGER REFERENCES bookings(id) ON DELETE SET NULL,
         type VARCHAR(50) NOT NULL CHECK (type IN ('income', 'expense')),
         category VARCHAR(100) NOT NULL,
         amount DECIMAL(10,2) NOT NULL,

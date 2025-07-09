@@ -6,11 +6,13 @@ const PropertyModal = ({ property, onSave, onClose }) => {
     address: '',
     property_type: '',
     purchase_price: '',
+    down_payment: '',
+    monthly_mortgage: '',
+    monthly_taxes: '',
+    monthly_insurance: '',
+    monthly_hoa_fees: '',
     current_value: '',
-    monthly_rent: '',
-    annual_taxes: '',
-    annual_insurance: '',
-    hoa_fees: ''
+    nightly_rate: ''
   })
 
   useEffect(() => {
@@ -19,11 +21,13 @@ const PropertyModal = ({ property, onSave, onClose }) => {
         address: property.address || '',
         property_type: property.property_type || '',
         purchase_price: property.purchase_price || '',
+        down_payment: property.down_payment || '',
+        monthly_mortgage: property.monthly_mortgage || '',
+        monthly_taxes: property.monthly_taxes || '',
+        monthly_insurance: property.monthly_insurance || '',
+        monthly_hoa_fees: property.monthly_hoa_fees || '',
         current_value: property.current_value || '',
-        monthly_rent: property.monthly_rent || '',
-        annual_taxes: property.annual_taxes || '',
-        annual_insurance: property.annual_insurance || '',
-        hoa_fees: property.hoa_fees || ''
+        nightly_rate: property.nightly_rate || ''
       })
     }
   }, [property])
@@ -33,11 +37,13 @@ const PropertyModal = ({ property, onSave, onClose }) => {
     const data = {
       ...formData,
       purchase_price: parseFloat(formData.purchase_price) || 0,
+      down_payment: parseFloat(formData.down_payment) || 0,
+      monthly_mortgage: parseFloat(formData.monthly_mortgage) || 0,
+      monthly_taxes: parseFloat(formData.monthly_taxes) || 0,
+      monthly_insurance: parseFloat(formData.monthly_insurance) || 0,
+      monthly_hoa_fees: parseFloat(formData.monthly_hoa_fees) || 0,
       current_value: parseFloat(formData.current_value) || 0,
-      monthly_rent: parseFloat(formData.monthly_rent) || 0,
-      annual_taxes: parseFloat(formData.annual_taxes) || 0,
-      annual_insurance: parseFloat(formData.annual_insurance) || 0,
-      hoa_fees: parseFloat(formData.hoa_fees) || 0
+      nightly_rate: parseFloat(formData.nightly_rate) || 0
     }
     
     if (property) {
@@ -116,6 +122,33 @@ const PropertyModal = ({ property, onSave, onClose }) => {
               />
             </div>
             <div>
+              <label className="label">Down Payment</label>
+              <input
+                type="number"
+                name="down_payment"
+                value={formData.down_payment}
+                onChange={handleChange}
+                className="input"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="label">Monthly Mortgage</label>
+              <input
+                type="number"
+                name="monthly_mortgage"
+                value={formData.monthly_mortgage}
+                onChange={handleChange}
+                className="input"
+                step="0.01"
+                required
+              />
+            </div>
+            <div>
               <label className="label">Current Value</label>
               <input
                 type="number"
@@ -131,22 +164,22 @@ const PropertyModal = ({ property, onSave, onClose }) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Monthly Rent</label>
+              <label className="label">Monthly Taxes</label>
               <input
                 type="number"
-                name="monthly_rent"
-                value={formData.monthly_rent}
+                name="monthly_taxes"
+                value={formData.monthly_taxes}
                 onChange={handleChange}
                 className="input"
                 step="0.01"
               />
             </div>
             <div>
-              <label className="label">Annual Taxes</label>
+              <label className="label">Monthly Insurance</label>
               <input
                 type="number"
-                name="annual_taxes"
-                value={formData.annual_taxes}
+                name="monthly_insurance"
+                value={formData.monthly_insurance}
                 onChange={handleChange}
                 className="input"
                 step="0.01"
@@ -156,22 +189,22 @@ const PropertyModal = ({ property, onSave, onClose }) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Annual Insurance</label>
+              <label className="label">Monthly HOA Fees</label>
               <input
                 type="number"
-                name="annual_insurance"
-                value={formData.annual_insurance}
+                name="monthly_hoa_fees"
+                value={formData.monthly_hoa_fees}
                 onChange={handleChange}
                 className="input"
                 step="0.01"
               />
             </div>
             <div>
-              <label className="label">HOA Fees</label>
+              <label className="label">Nightly Rate</label>
               <input
                 type="number"
-                name="hoa_fees"
-                value={formData.hoa_fees}
+                name="nightly_rate"
+                value={formData.nightly_rate}
                 onChange={handleChange}
                 className="input"
                 step="0.01"

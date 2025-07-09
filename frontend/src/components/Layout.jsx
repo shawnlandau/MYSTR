@@ -5,6 +5,7 @@ import {
   Building2, 
   Receipt, 
   Calculator,
+  Calendar,
   Menu,
   X
 } from 'lucide-react'
@@ -16,6 +17,7 @@ const Layout = ({ children }) => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Properties', href: '/properties', icon: Building2 },
+    { name: 'Bookings', href: '/bookings', icon: Calendar },
     { name: 'Transactions', href: '/transactions', icon: Receipt },
     { name: 'Depreciation', href: '/depreciation', icon: Calculator },
   ]
